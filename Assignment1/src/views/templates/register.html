@@ -1,0 +1,51 @@
+<!--
+ File: register.html
+ Course: CIS 234A - Real World Programming
+ Author: Khaylub Thompson-Calvin
+ Date: 04/13/2025
+ Description:
+ This template provides the registration page for the Food Pantry Notification System.
+ It extends the base layout and defines blocks for title, header, and main content.
+
+ References:
+ - Flask Templating Docs: https://flask.palletsprojects.com/
+ - Jinja2 Documentation: https://jinja.palletsprojects.com/
+-->
+
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+{% block header %}Create Your Account{% endblock %}
+
+{% block content %}
+    <form action="/register" method="POST">
+        <label for="fullname">Full Name:</label>
+        <input type="text" id="fullname" name="fullname" required>
+
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required>
+
+        <button type="submit">Register</button>
+    </form>
+
+    <p style="text-align:center; margin-top: 20px;">
+        Already have an account? <a href="/login">Login here</a>
+    </p>
+{% endblock %}
+
+
+
+
+
+
+
+

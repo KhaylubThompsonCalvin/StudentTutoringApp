@@ -1,0 +1,51 @@
+<!--
+ File: base.html
+ Course: CIS 234A - Real World Programming
+ Author: Khaylub Thompson-Calvin
+ Date: 04/13/2025
+ Description:
+ This is the default base template for the Food Pantry Notification System.
+ It defines reusable structure blocks for all extending pages and includes
+ global CSS and JavaScript behavior.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Default Title{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+
+    <header>
+        <nav class="navbar">
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('notification_log') }}">Notification Log</a>
+            <a href="{{ url_for('create_template') }}">Create Template</a>
+        </nav>
+
+        <h1>{% block header %}Default Header{% endblock %}</h1>
+    </header>
+
+    <main>
+        {% block content %}
+        <p>This is the default content area.</p>
+        {% endblock %}
+    </main>
+
+    <footer>
+        <hr />
+        <p>&copy; 2025 Food Pantry Notification System</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
+
+
+
+
+

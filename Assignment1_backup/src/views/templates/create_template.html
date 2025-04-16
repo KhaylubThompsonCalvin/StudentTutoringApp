@@ -1,0 +1,51 @@
+<!--
+ File: create_template.html
+ Course: CIS 234A - Real World Programming
+ Author: Khaylub Thompson-Calvin
+ Date: 04/13/2025
+ Description:
+ This template allows users to create and save message templates
+ for the Food Pantry Notification System.
+
+ References:
+ - Flask Templating Docs: https://flask.palletsprojects.com/
+ - Jinja2 Documentation: https://jinja.palletsprojects.com/
+-->
+
+{% extends "base.html" %}
+
+{% block title %}Create Notification Template{% endblock %}
+{% block header %}Create Notification Template{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="container">
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">
+                        <strong>{{ message }}</strong>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <form method="post" action="/create_template">
+        <label for="template_name">Template Name:</label>
+        <input type="text" id="template_name" name="template_name" required>
+
+        <label for="template_subject">Template Subject:</label>
+        <input type="text" id="template_subject" name="template_subject" required>
+
+        <label for="template_body">Template Body:</label>
+        <textarea id="template_body" name="template_body" rows="10" required></textarea>
+
+        <button type="submit">Save Template</button>
+    </form>
+
+    <p style="margin-top: 20px;"><a href="/dashboard">Back to Dashboard</a></p>
+</div>
+{% endblock %}
+

@@ -1,0 +1,76 @@
+<!--
+ File: notifications.html
+ Course: CIS 234A - Real World Programming
+ Author: Khaylub Thompson-Calvin
+ Date: 04/13/2025
+ Description:
+ This template allows users to post new notifications and view existing ones
+ in the Food Pantry Notification System.
+
+ References:
+ - Flask Templating Docs: https://flask.palletsprojects.com/
+ - Jinja2 Documentation: https://jinja.palletsprojects.com/
+-->
+
+{% extends "base.html" %}
+
+{% block title %}Post Notifications{% endblock %}
+{% block header %}Post a Notification{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="container">
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">
+                        <strong>{{ message }}</strong>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <form action="/notifications" method="POST">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required>
+
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" required rows="4"></textarea>
+
+        <button type="submit">Send Notification</button>
+    </form>
+
+    <hr>
+
+    <h2>Existing Notifications</h2>
+    {% if notifications %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Message</th>
+                    <th>Created By</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for note in notifications %}
+                    <tr>
+                        <td>{{ note.title }}</td>
+                        <td>{{ note.message }}</td>
+                        <td>{{ note.createdBy }}</td>
+                        <td>{{ note.sent_at }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No notifications found.</p>
+    {% endif %}
+
+    <p style="margin-top: 20px;"><a href="/dashboard">Back to Dashboard</a></p>
+</div>
+{% endblock %}
+

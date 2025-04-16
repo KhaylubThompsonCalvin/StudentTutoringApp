@@ -1,0 +1,232 @@
+/* Global Styles for Food Pantry Notification System */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #F5F5DC; /* Warm Beige */
+  color: #333;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+/* Header */
+header {
+  background-color: #2E8B57; /* Jade Green */
+  padding: 1.5em 0;
+  text-align: center;
+  color: #fff;
+  font-size: 2em;
+  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Navigation */
+nav {
+  background-color: #A9BA9D; /* Soft Olive */
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+}
+
+nav a {
+  color: #333;
+  text-decoration: none;
+  padding: 10px 20px;
+  margin: 0 5px;
+  display: inline-block;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+nav a:hover {
+  background-color: #9DC183; /* Sage Green */
+  color: #fff;
+}
+
+/* Container */
+.container {
+  width: 80%;
+  margin: 2rem auto;
+  background: #fff;
+  padding: 2rem;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+/* Form */
+form {
+  background: #ffffff;
+  padding: 2em;
+  border-radius: 6px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.3s ease;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #2E8B57;
+  outline: none;
+}
+
+/* Buttons */
+button,
+input[type="submit"] {
+  background-color: #2E8B57; /* Jade Green */
+  color: #fff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+button:hover,
+input[type="submit"]:hover {
+  background-color: #3CB371; /* Brighter jade */
+}
+
+/* Flash & Alert */
+.flash-message,
+.flash {
+  margin: 1em auto;
+  padding: 1em;
+  background: #dff0d8;
+  color: #3c763d;
+  border: 1px solid #d6e9c6;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.alert {
+  margin: 1em auto;
+  padding: 1em;
+  background: #f2dede;
+  color: #a94442;
+  border: 1px solid #ebccd1;
+  border-radius: 4px;
+}
+
+/* Character Counter */
+textarea + small {
+  display: block;
+  color: #888;
+  font-size: 0.85em;
+  margin-top: -0.5em;
+  margin-bottom: 1em;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1em;
+}
+
+table, th, td {
+  border: 1px solid #ddd;
+}
+
+th {
+  background: #9DC183; /* Sage Green */
+  color: #fff;
+  padding: 10px;
+}
+
+td {
+  padding: 10px;
+  background: #fff;
+}
+
+/* Dashboard */
+.dashboard {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.dashboard h1 {
+  margin-bottom: 1rem;
+}
+
+.dashboard .stats {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.dashboard .stats .card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  width: calc(33% - 20px);
+  margin: 10px;
+  padding: 1.5em;
+}
+
+/* Footer */
+footer {
+  background-color: #A9BA9D;
+  color: white;
+  text-align: center;
+  padding: 1rem 0;
+  margin-top: 2rem;
+  font-size: 0.9em;
+  border-top: 1px solid #ccc;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .container {
+      width: 95%;
+  }
+  .dashboard .stats .card {
+      width: calc(50% - 20px);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  nav a {
+      display: block;
+      margin-bottom: 8px;
+  }
+  .dashboard .stats .card {
+      width: 100%;
+  }
+}
+
+/* Login/Label Enhancements */
+label {
+  display: block;
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  margin-top: 1.5rem;
+}
+
+  
+  

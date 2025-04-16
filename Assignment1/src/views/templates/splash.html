@@ -1,0 +1,31 @@
+<!--
+ File: splash.html
+ Course: CIS 234A - Real World Programming
+ Author: Khaylub Thompson-Calvin
+ Date: 04/15/2025
+ Description:
+ Splash screen used as the public-facing homepage. This file is meant to 
+ welcome first-time visitors to the Campus Pantry system. It includes
+ a hero image (food_pantry_logo.png), short welcome message, and 
+ login access. Extends base.html which includes campus_pantry_logo.png.
+-->
+
+{% extends "base.html" %}
+
+{% block title %}Welcome - Campus Pantry{% endblock %}
+
+{% block hero %}
+<div class="hero-logo">
+    <img src="{{ url_for('static', filename='images/food_pantry_logo.png') }}" alt="Food Pantry Original Logo" class="logo-img" />
+</div>
+{% endblock %}
+
+{% block header %}Home – Welcome to the PCC Campus Pantry{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Food Support. Campus Connection.</h2>
+    <p>Your one-stop hub for food access, community care, and campus resources.</p>
+    <a href="{{ url_for('login') }}" class="btn">Login to Access Services</a>
+</div>
+{% endblock %}

@@ -1,0 +1,67 @@
+<!--
+ File: dashboard.html
+ Course: CIS 234A - Real World Programming
+ Author: Khaylub Thompson-Calvin
+ Date: 04/13/2025
+ Description:
+ This template renders the user dashboard for the Food Pantry Notification System.
+ It shows login status, notification tools, and dashboard navigation.
+
+ References:
+ - Flask Templating Docs: https://flask.palletsprojects.com/
+ - Jinja2 Documentation: https://jinja.palletsprojects.com/
+-->
+
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Food Pantry{% endblock %}
+{% block header %}Food Pantry Dashboard{% endblock %}
+
+{% block nav %}
+<nav>
+    <a href="/dashboard">Dashboard</a>
+    <a href="/notifications">Post Notification</a>
+    <a href="/notification_log">View Log</a>
+    <a href="/create_template">Templates</a>
+    <a href="/logout">Logout</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="container dashboard">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="container">
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">
+                        <strong>{{ message }}</strong>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <h1>Welcome, {{ username }}!</h1>
+    <p>Welcome to the Food Pantry Notification System Dashboard.</p>
+
+    <div class="stats">
+        <div class="card">
+            <h3><a href="/notifications">Post Notification</a></h3>
+            <p>Create a message for your community.</p>
+        </div>
+        <div class="card">
+            <h3><a href="/notification_log">View Notification Log</a></h3>
+            <p>Filter and review past announcements.</p>
+        </div>
+        <div class="card">
+            <h3><a href="/create_template">Create Template</a></h3>
+            <p>Build reusable message formats.</p>
+        </div>
+    </div>
+
+    <p style="margin-top: 30px;"><a href="/logout">Logout</a></p>
+</div>
+{% endblock %}
+
+

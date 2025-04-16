@@ -1,0 +1,31 @@
+<!--
+ File: home.html
+ Course: CIS 234A - Real World Programming
+ Author: Khaylub Thompson-Calvin
+ Date: 04/15/2025
+ Description:
+ Public-facing homepage for the Food Pantry Notification System.
+ Uses the original food_pantry_logo.png in the hero section and invites
+ new visitors to log in. Styled for mobile-first experience using base.html.
+-->
+
+{% extends "base.html" %}
+
+{% block title %}Welcome - Campus Pantry{% endblock %}
+
+{% block hero %}
+<div class="hero-logo">
+    <img src="{{ url_for('static', filename='images/food_pantry_logo.png') }}" alt="Food Pantry Original Logo" class="logo-img" />
+</div>
+{% endblock %}
+
+{% block header %}Welcome to the Campus Pantry{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Food Support. Campus Connection.</h2>
+    <p>Your one-stop hub for food access, community care, and campus resources.</p>
+    <a href="{{ url_for('login') }}" class="btn">Login to Access Services</a>
+</div>
+{% endblock %}
+

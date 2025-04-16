@@ -1,0 +1,46 @@
+<!--
+ File: send_notification.html
+ Course: CIS 234A - Real World Programming
+ Author: Khaylub Thompson-Calvin
+ Date: 04/13/2025
+ Description:
+ This template provides a form to send a new notification in the Food Pantry Notification System.
+ It extends the base layout and defines blocks for title, header, and content.
+
+ References:
+ - Flask Templating Docs: https://flask.palletsprojects.com/
+ - Jinja2 Documentation: https://jinja.palletsprojects.com/
+-->
+
+{% extends "base.html" %}
+
+{% block title %}Send Notification{% endblock %}
+{% block header %}Send a New Notification{% endblock %}
+
+{% block content %}
+    <!-- Flash Messages (optional if implemented) -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="container">
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">
+                        <strong>{{ message }}</strong>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <form method="post" action="/send_notification">
+        <label for="subject">Subject:</label>
+        <input type="text" id="subject" name="subject" required>
+
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" rows="5" required></textarea>
+
+        <button type="submit">Send Notification</button>
+    </form>
+
+    <p style="margin-top: 20px;"><a href="/dashboard">Back to Dashboard</a></p>
+{% endblock %}
+

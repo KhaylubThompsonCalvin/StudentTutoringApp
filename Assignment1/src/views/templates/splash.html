@@ -1,31 +1,45 @@
-<!--
- File: splash.html
- Project: Eyes Unclouded App – Legacy Gateway
- Author: Khaylub Thompson-Calvin
- Date: 04/16/2025
- Description:
- Public splash screen welcoming Seekers to the Eyes Unclouded System.
- Serves as the initiation point for perception mastery and virtue training.
- Hero image and message serve as symbolic invitation to legacy journey.
--->
-
 {% extends "base.html" %}
 
 {% block title %}Eyes Unclouded – Gateway{% endblock %}
 
 {% block hero %}
 <div class="hero-logo">
-    <img src="{{ url_for('static', filename='images/EyesUnclouded.png') }}" alt="Eyes Unclouded Legacy Sigil" />
+  <img
+    src="{{ url_for('static', filename='images/EyesUnclouded.png') }}"
+    alt="Eyes Unclouded Legacy Sigil"
+    class="hero-img pulse-effect"
+/>
 </div>
+<audio id="introAudio" autoplay>
+  <source src="{{ url_for('static', filename='audio/EyesUnclouded_Intro.mp3') }}" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
 {% endblock %}
 
-{% block header %}Initiation Gateway – Enter the Library of Insight{% endblock %}
+{% block header %}
+  <h2 class="fade-on-audio">Initiation Gateway – Enter the Library of Insight</h2>
+{% endblock %}
 
 {% block content %}
-<h2>Observe. Decode. Endure.</h2>
-<p>Welcome, Seeker. This is your entry into the behavioral library where wisdom is preserved and legacies are unlocked.</p>
-<a href="{{ url_for('show_login') }}" class="highlight-btn interactive-glow">
+  <p
+    class="fade-on-audio"
+    style="font-size:1.1em;color:#90caf9;font-style:italic;margin-bottom:1rem;"
+  >
+    <strong>Eyes Unclouded</strong> is a perception‑training web app that combines
+    behavioral logging, virtue scoring, and symbolic storytelling to help users
+    track insights, decode emotion, and sharpen legacy‑focused self‑mastery.
+  </p>
+  <p class="fade-on-audio">
+    Welcome, Seeker. This is your entry into the behavioral library where wisdom
+    is preserved and legacies are unlocked.
+  </p>
+  <a
+    href="{{ url_for('show_login') }}"
+    class="highlight-btn interactive-glow fade-on-audio"
+  >
     <i class="material-icons">login</i> Begin the Path
-</a>
+  </a>
 {% endblock %}
+
+
 

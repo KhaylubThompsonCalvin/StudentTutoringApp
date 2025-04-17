@@ -1,70 +1,44 @@
 # File: app.py
 # Course: CIS 234A – Real World Programming
-# Project: Food Pantry Notification System – Sprint 1
+# Project: Eyes Unclouded App – Sprint 1
 # Author: Khaylub Thompson-Calvin
-# Date: 04/14/2025
+# Date: 04/16/2025
 # Description:
-# This module implements the core web interface for the Food Pantry Notification System using Flask.
-# It includes user registration, login, session management, and CRUD operations for posting
-# notifications, managing templates, and viewing logs. Authentication is enforced using
-# session cookies and login decorators. MongoDB is used for all backend data storage,
-# including subscribers, notifications, and templates.
-#
-# Useful Features:
-# - Login with username or email (flexible identifier)
-# - Password hashing with Werkzeug
-# - Flash messaging for status alerts
-# - Flask Blueprint support for modular controllers
-# - Notification posting & filtering
-# - Template creation for reusable messages
-# - Log viewing with date-based filtering
-#
-# References:
-# - Flask Documentation: https://flask.palletsprojects.com/
-# - MongoDB Python Driver (PyMongo): https://pymongo.readthedocs.io/
-# - Werkzeug Security: https://werkzeug.palletsprojects.com/
-# - PCC CIS234A Course Materials
+# Implements the web engine for Eyes Unclouded App (Flask + MongoDB).
+# Includes splash screen, user registration, login, dashboard, notification posting,
+# template creation, and broadcast log filtering.
 
-
-import sys
-import os
 from datetime import datetime, timedelta
 from flask import (
-    Flask,
-    request,
-    jsonify,
-    render_template,
-    flash,
-    redirect,
-    url_for,
-    session,
+    Flask, request, render_template,
+    redirect, url_for, flash, session
 )
 from flask_pymongo import PyMongo
-from controllers.notification_controller import notification_bp
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 
 # ----------------------------------------------------------------------
-# Flask App Initialization
+# Flask App Setup
 # ----------------------------------------------------------------------
 app = Flask(
     __name__,
     template_folder="src/views/templates",
-    static_folder="src/views/static",  # Optional, ensure folder exists or remove
+    static_folder="src/views/static"
 )
 app.secret_key = "your_secret_key"
 
-# MongoDB Configuration
-app.config["MONGO_URI"] = "mongodb://localhost:27017/foodPantry"
+# ----------------------------------------------------------------------
+# MongoDB Connections
+# ----------------------------------------------------------------------
+app.config["MONGO_URI"] = "mongodb://localhost:27017/eyesUncloudedApp"
 mongo = PyMongo(app)
-subscribers_collection = mongo.db.subscribers
+user_profiles_collection = mongo.db.user_profiles
+notifications_collection = mongo.db.notifications
 
-# Register Blueprint
-app.register_blueprint(notification_bp)
-
+templates_collection = mongo.db.templates
 
 # ----------------------------------------------------------------------
-# Login Required Decorator
+# Authentication Decorator
 # ----------------------------------------------------------------------
 def login_required(f):
     @wraps(f)
@@ -73,201 +47,182 @@ def login_required(f):
             flash("Login required.", "warning")
             return redirect(url_for("show_login"))
         return f(*args, **kwargs)
-
     return decorated_function
 
+# ----------------------------------------------------------------------
+# Routes
+# ----------------------------------------------------------------------
+@app.route("/splash")
+def splash():
+    print("[DEBUG] Accessed splash page")
+    return render_template("splash.html")
 
-# ----------------------------------------------------------------------
-# Registration Routes
-# ----------------------------------------------------------------------
-@app.route("/register", methods=["GET"])
+@app.route("/register", methods=["GET", "POST"] )
 def show_register():
-    if "user_id" in session:
-        return redirect(url_for("dashboard"))
+    print("[DEBUG] Accessed register route")
+    if request.method == "POST":
+        print("[DEBUG] Received POST data for registration")
+        data = request.form
+        fullname = data.get("fullname")
+        username = data.get("username")
+        email = data.get("email")
+        password = data.get("password")
+        confirm_password = data.get("confirmPassword")
+        role = data.get("role")
+        learning_level = int(data.get("learning_level"))
+
+        if password != confirm_password:
+            print("[ERROR] Passwords do not match.")
+            flash("Passwords do not match.", "danger")
+            return redirect(url_for("show_register"))
+
+        user = {
+            "fullName": fullname,
+            "username": username,
+            "email": email,
+            "password": generate_password_hash(password),
+            "role": role,
+            "learning_level": learning_level,
+            "perception_score": 0,
+            "virtue_affinity": [],
+            "created_at": datetime.utcnow()
+        }
+
+        try:
+            user_profiles_collection.insert_one(user)
+            print(f"[DEBUG] Registered user: {username}")
+            flash("Registration successful! Please log in.", "success")
+            return redirect(url_for("show_login"))
+        except Exception as e:
+            print(f"[ERROR] Registration failed: {e}")
+            if "E11000" in str(e):
+                flash("Username or Email already exists.", "warning")
+            else:
+                flash(f"Registration failed: {str(e)}", "danger")
+            return redirect(url_for("show_register"))
+
     return render_template("register.html")
 
-
-@app.route("/register", methods=["POST"])
-def register():
-    data = request.form
-    fullname = data.get("fullname")
-    username = data.get("username")
-    email = data.get("email")
-    password = data.get("password")
-    confirm_password = data.get("confirmPassword")
-
-    if password != confirm_password:
-        flash("Passwords do not match.", "danger")
-        return redirect(url_for("show_register"))
-
-    subscriber = {
-        "fullName": fullname,
-        "username": username,
-        "email": email,
-        "password": generate_password_hash(password),
-        "role": "subscriber",
-    }
-
-    try:
-        subscribers_collection.insert_one(subscriber)
-        flash("Registration successful! Please log in.", "success")
-        return redirect(url_for("show_login"))
-    except Exception as e:
-        if "E11000" in str(e):
-            flash("Username or Email already exists.", "warning")
-        else:
-            flash(f"Registration failed: {str(e)}", "danger")
-        return redirect(url_for("show_register"))
-
-
-# ----------------------------------------------------------------------
-# Login Routes
-# ----------------------------------------------------------------------
-@app.route("/login", methods=["GET"])
+@app.route("/login", methods=["GET", "POST"] )
 def show_login():
-    if "user_id" in session:
-        return redirect(url_for("dashboard"))
+    print("[DEBUG] Accessed login route")
+    if request.method == "POST":
+        print("[DEBUG] Received POST data for login")
+        identifier = request.form.get("identifier")
+        password = request.form.get("password")
+        try:
+            user = user_profiles_collection.find_one({
+                "$or": [{"username": identifier}, {"email": identifier}]
+            })
+            if user and check_password_hash(user["password"], password):
+                print(f"[DEBUG] Login successful for: {identifier}")
+                session["user_id"] = str(user["_id"])
+                session["username"] = user["username"]
+                flash("Login successful!", "success")
+                return redirect(url_for("dashboard"))
+            else:
+                print(f"[ERROR] Invalid login for: {identifier}")
+                flash("Invalid credentials. Try again.", "danger")
+                return redirect(url_for("show_login"))
+        except Exception as e:
+            print(f"[ERROR] Login failed: {e}")
+            flash(f"Login failed: {str(e)}", "danger")
+            return redirect(url_for("show_login"))
     return render_template("login.html")
 
-
-@app.route("/login", methods=["POST"])
-def login():
-    data = request.form
-    identifier = data.get("identifier")
-    password = data.get("password")
-
-    try:
-        user = subscribers_collection.find_one(
-            {"$or": [{"username": identifier}, {"email": identifier}]}
-        )
-
-        if user and check_password_hash(user["password"], password):
-            session["user_id"] = str(user["_id"])
-            session["username"] = user["username"]
-            flash("Login successful!", "success")
-            return redirect(url_for("dashboard"))
-        else:
-            flash("Invalid credentials. Try again.", "danger")
-            return redirect(url_for("show_login"))
-
-    except Exception as e:
-        flash(f"Login failed: {str(e)}", "danger")
-        return redirect(url_for("show_login"))
-
-
-# ----------------------------------------------------------------------
-# Dashboard
-# ----------------------------------------------------------------------
 @app.route("/dashboard")
 @login_required
 def dashboard():
+    print(f"[DEBUG] Accessed dashboard for: {session.get('username')}")
     return render_template("dashboard.html", username=session.get("username"))
 
+@app.route("/logout")
+def logout():
+    print("[DEBUG] Logging out user")
+    session.clear()
+    flash("You have been logged out.", "info")
+    return redirect(url_for("show_login"))
 
-# ----------------------------------------------------------------------
-# Notifications
-# ----------------------------------------------------------------------
 @app.route("/notifications", methods=["GET", "POST"])
 @login_required
 def notifications():
     if request.method == "POST":
-        title = request.form.get("title")
-        message = request.form.get("message")
-
-        if not title or not message:
-            flash("Both title and message are required.", "danger")
-        else:
-            mongo.db.notifications.insert_one(
-                {
-                    "title": title,
-                    "message": message,
-                    "createdBy": session.get("username"),
-                    "sent_at": datetime.utcnow(),
-                }
-            )
-            flash("Notification created successfully!", "success")
-
-    all_notifications = list(mongo.db.notifications.find())
-    return render_template(
-        "notifications.html",
-        notifications=all_notifications,
-        username=session.get("username"),
-    )
-
-
-# Create Template Route
-
+        print("[DEBUG] Received POST data for /notifications")
+        data = request.form
+        note = {
+            "title": data.get("title"),
+            "message": data.get("message"),
+            "virtue_tag": data.get("virtue_tag"),
+            "emotion_tag": data.get("emotion_tag"),
+            "createdBy": session.get("username"),
+            "sent_at": datetime.utcnow()
+        }
+        try:
+            notifications_collection.insert_one(note)
+            print("[DEBUG] Notification saved:", note)
+            flash("Signal broadcasted successfully.", "success")
+        except Exception as e:
+            print(f"[ERROR] Failed to broadcast notification: {e}")
+            flash(f"Failed to send signal: {str(e)}", "danger")
+        return redirect(url_for("notifications"))
+    all_notes = list(notifications_collection.find().sort("sent_at", -1))
+    print(f"[DEBUG] Fetching {len(all_notes)} notifications")
+    return render_template("notifications.html", notifications=all_notes)
 
 @app.route("/create_template", methods=["GET", "POST"])
 @login_required
 def create_template():
     if request.method == "POST":
-        template_name = request.form.get("template_name")
-        template_subject = request.form.get("template_subject")
-        template_body = request.form.get("template_body")
-
-        if not template_name or not template_subject or not template_body:
+        print("[DEBUG] Received POST data for template creation")
+        name = request.form.get("template_name")
+        subj = request.form.get("template_subject")
+        body = request.form.get("template_body")
+        if not (name and subj and body):
             flash("All fields are required.", "danger")
         else:
             try:
-                mongo.db.templates.insert_one(
-                    {
-                        "name": template_name,
-                        "subject": template_subject,
-                        "body": template_body,
-                        "createdBy": session.get("username"),
-                        "created_at": datetime.utcnow(),
-                    }
-                )
+                templates_collection.insert_one({
+                    "name": name,
+                    "subject": subj,
+                    "body": body,
+                    "createdBy": session.get("username"),
+                    "created_at": datetime.utcnow()
+                })
+                print(f"[DEBUG] Template saved: {name}")
                 flash("Template saved successfully!", "success")
                 return redirect(url_for("create_template"))
             except Exception as e:
+                print(f"[ERROR] Template save failed: {e}")
                 flash(f"Error saving template: {str(e)}", "danger")
-
     return render_template("create_template.html")
-
-
-# Notification Log
-
 
 @app.route("/notification_log", methods=["GET"])
 @login_required
 def notification_log():
-    start_date_str = request.args.get("start_date")
-    end_date_str = request.args.get("end_date")
-
+    start = request.args.get("start_date")
+    end = request.args.get("end_date")
     query = {}
-    if start_date_str and end_date_str:
+    if start and end:
         try:
-            start = datetime.strptime(start_date_str, "%Y-%m-%d")
-            end = datetime.strptime(end_date_str, "%Y-%m-%d") + timedelta(days=1)
-            query["sent_at"] = {"$gte": start, "$lt": end}
-        except ValueError:
+            dt_start = datetime.strptime(start, "%Y-%m-%d")
+            dt_end = datetime.strptime(end, "%Y-%m-%d") + timedelta(days=1)
+            query["sent_at"] = {"$gte": dt_start, "$lt": dt_end}
+        except Exception as e:
+            print(f"[ERROR] Date parse failed: {e}")
             flash("Invalid date format. Use YYYY-MM-DD.", "danger")
-
-    notifications = list(mongo.db.notifications.find(query))
-    return render_template("notification_log.html", notifications=notifications)
-
-
-# Logout
-
-
-@app.route("/logout")
-def logout():
-    session.clear()
-    flash("You have been logged out.", "info")
-    return redirect(url_for("show_login"))
-
-
-# Home
-
+    notes = list(notifications_collection.find(query).sort("sent_at", -1))
+    print(f"[DEBUG] Found {len(notes)} log entries")
+    return render_template("notification_log.html", notifications=notes)
 
 @app.route("/")
 def index():
-    return render_template("splash.html")
+    print("[DEBUG] Redirecting to splash")
+    return redirect(url_for("splash"))
 
-
-# Run the app
-
+# ----------------------------------------------------------------------
+# Run Server
+# ----------------------------------------------------------------------
 if __name__ == "__main__":
-    app.run(port=5001, debug=True)
+    print("[INFO] Starting EyesUncloudedApp on http://127.0.0.1:7777")
+    app.run(port=7777, debug=True)
+

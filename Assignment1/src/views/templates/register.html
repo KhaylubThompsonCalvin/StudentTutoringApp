@@ -1,45 +1,69 @@
 <!--
  File: register.html
- Course: CIS 234A - Real World Programming
+ Project: Eyes Unclouded App – Behavioral Legacy Engine
  Author: Khaylub Thompson-Calvin
- Date: 04/13/2025
+ Date: 04/16/2025
  Description:
- This template provides the registration page for the Food Pantry Notification System.
- It extends the base layout and defines blocks for title, header, and main content.
-
- References:
- - Flask Templating Docs: https://flask.palletsprojects.com/
- - Jinja2 Documentation: https://jinja.palletsprojects.com/
+ Registration interface for users joining the Eyes Unclouded App.
+ Introduces seekers to the system with role classification and readiness levels.
 -->
 
 {% extends "base.html" %}
 
-{% block title %}Register{% endblock %}
-{% block header %}Create Your Account{% endblock %}
+{% block title %}Join the Eyes Unclouded{% endblock %}
+{% block header %}Initiate Your Legacy Profile{% endblock %}
 
 {% block content %}
+<div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash-message {{ category }}">
+                    <strong>{{ message }}</strong>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
     <form action="/register" method="POST">
-        <label for="fullname">Full Name:</label>
+        <label for="fullname">Full Name (Legacy ID):</label>
         <input type="text" id="fullname" name="fullname" required>
 
-        <label for="username">Username:</label>
+        <label for="username">Username (Codename):</label>
         <input type="text" id="username" name="username" required>
 
-        <label for="email">Email:</label>
+        <label for="email">Email Contact:</label>
         <input type="email" id="email" name="email" required>
 
-        <label for="password">Password:</label>
+        <label for="password">Create Password:</label>
         <input type="password" id="password" name="password" required>
 
         <label for="confirmPassword">Confirm Password:</label>
         <input type="password" id="confirmPassword" name="confirmPassword" required>
 
-        <button type="submit">Register</button>
+        <label for="role">Select Role Type:</label>
+        <select name="role" id="role">
+            <option value="Seeker">Seeker</option>
+            <option value="Interpreter">Interpreter</option>
+            <option value="Guardian">Guardian</option>
+        </select>
+
+        <label for="learning_level">Cognitive Readiness Level:</label>
+        <select name="learning_level" id="learning_level">
+            <option value="1">Level 1 – Novice Observer</option>
+            <option value="2">Level 2 – Pattern Noticer</option>
+            <option value="3">Level 3 – Perception Analyst</option>
+        </select>
+
+        <button type="submit">
+            <i class="material-icons">person_add</i> Register & Enter System
+        </button>
     </form>
 
     <p style="text-align:center; margin-top: 20px;">
-        Already have an account? <a href="/login">Login here</a>
+        Already initialized? <a href="/login">Return to Gateway</a>
     </p>
+</div>
 {% endblock %}
 
 

@@ -1,13 +1,11 @@
 /*
-File: main.js
-Course: CIS 234A – Real World Programming
-Project: Food Pantry Notification System
 Author: Khaylub Thompson-Calvin
-Date: 04/15/2025
+Date: 04/16/2025
+File Name: main.js
 Description:
-This file contains all global client-side JavaScript interactions for the 
-Food Pantry Notification System project. It includes flash message fading, 
-form validation, and real-time character counters for templates and notifications.
+Enhanced JavaScript for the Eyes Unclouded App.
+Includes animated flash fade-outs, real-time form feedback,
+and a foundation for perception-based interaction logic.
 */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -15,45 +13,48 @@ document.addEventListener('DOMContentLoaded', () => {
     const flashMessages = document.querySelectorAll('.flash-message');
     flashMessages.forEach(msg => {
         setTimeout(() => {
-            msg.style.transition = 'opacity 1s ease';
+            msg.style.transition = 'opacity 1s ease, transform 0.5s ease';
             msg.style.opacity = 0;
+            msg.style.transform = 'translateY(-10px)';
             setTimeout(() => msg.remove(), 1000);
         }, 4000);
     });
 
-    // Character counter for textarea fields
+    // Character counter for template or message textarea
     const textarea = document.getElementById('template_body') || document.getElementById('message');
     if (textarea) {
         const counter = document.createElement('small');
-        counter.style.display = 'block';
-        counter.style.marginTop = '5px';
-        counter.style.fontSize = '0.85em';
-        counter.style.color = '#888';
+        counter.classList.add('char-counter');
         textarea.parentNode.appendChild(counter);
-        textarea.addEventListener('input', () => {
+
+        const updateCounter = () => {
             counter.textContent = `${textarea.value.length} characters`;
-        });
+        };
+
+        textarea.addEventListener('input', updateCounter);
+        updateCounter();
     }
 
-    // Simple form validation
+    // Live form validation feedback
     const form = document.querySelector('form');
     if (form) {
         form.addEventListener('submit', (e) => {
             const requiredFields = form.querySelectorAll('[required]');
             let hasError = false;
+
             requiredFields.forEach(field => {
                 if (!field.value.trim()) {
-                    field.style.borderColor = 'crimson';
+                    field.style.borderColor = '#ff5252';
                     hasError = true;
                 } else {
-                    field.style.borderColor = '';
+                    field.style.borderColor = '#00ffc3';
                 }
             });
+
             if (hasError) {
                 e.preventDefault();
-                alert("Please fill out all required fields.");
+                alert("Please fill out all required fields to continue your path.");
             }
         });
     }
 });
-

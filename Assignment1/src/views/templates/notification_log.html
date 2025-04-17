@@ -1,21 +1,21 @@
 <!--
  File: notification_log.html
- Course: CIS 234A - Real World Programming
+ Project: Eyes Unclouded App – Behavioral Archive
  Author: Khaylub Thompson-Calvin
- Date: 04/13/2025
+ Date: 04/16/2025
  Description:
- This template allows users to filter and view a log of sent notifications.
- It extends the base layout and includes form controls for date filtering.
+ Archive of strategic and emotional broadcasts logged by users.
+ Allows filtering by date, and is a vital part of the “Legacy Reflection Engine”.
 
  References:
  - Flask Templating Docs: https://flask.palletsprojects.com/
- - Jinja2 Documentation: https://jinja.palletsprojects.com/
+ - Vision: Eyes Unclouded Wisdom Layer
 -->
 
 {% extends "base.html" %}
 
-{% block title %}Notification Log{% endblock %}
-{% block header %}Notification Log{% endblock %}
+{% block title %}Broadcast Archive – Eyes Unclouded{% endblock %}
+{% block header %}<i class="material-icons">history</i> Strategic Notification Log{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -32,14 +32,14 @@
         {% endif %}
     {% endwith %}
 
-    <form method="get" action="/notification_log">
-        <label for="start_date">Start Date:</label>
+    <form method="get" action="{{ url_for('notification_log') }}">
+        <label for="start_date">From:</label>
         <input type="date" id="start_date" name="start_date" required>
 
-        <label for="end_date">End Date:</label>
+        <label for="end_date">To:</label>
         <input type="date" id="end_date" name="end_date" required>
 
-        <button type="submit">Filter</button>
+        <button type="submit"><i class="material-icons">filter_alt</i> Apply Filter</button>
     </form>
 
     <hr>
@@ -48,16 +48,16 @@
         <table>
             <thead>
                 <tr>
-                    <th>Title</th>
-                    <th>Message</th>
+                    <th>Signal</th>
+                    <th>Intention</th>
                     <th>Sent By</th>
-                    <th>Date/Time</th>
+                    <th>Logged At</th>
                 </tr>
             </thead>
             <tbody>
                 {% for notification in notifications %}
                     <tr>
-                        <td>{{ notification.title }}</td>
+                        <td><strong>{{ notification.title }}</strong></td>
                         <td>{{ notification.message }}</td>
                         <td>{{ notification.createdBy }}</td>
                         <td>{{ notification.sent_at }}</td>
@@ -66,10 +66,11 @@
             </tbody>
         </table>
     {% else %}
-        <p>No notifications found for the selected date range.</p>
+        <p class="flash-message alert">No strategic broadcasts found in this temporal window.</p>
     {% endif %}
 
-    <p style="margin-top: 20px;"><a href="/dashboard">Back to Dashboard</a></p>
+    <p style="margin-top: 20px;"><a href="{{ url_for('dashboard') }}"><i class="material-icons">dashboard</i> Return to Dashboard</a></p>
 </div>
 {% endblock %}
+
 

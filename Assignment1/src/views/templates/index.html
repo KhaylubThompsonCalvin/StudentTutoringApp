@@ -1,0 +1,36 @@
+<!--
+ File: index.html
+ Project: Eyes Unclouded App
+ Author: Khaylub Thompson-Calvin
+ Date: 04/16/2025
+ Description:
+ Landing page for the EyesUncloudedApp.
+ - Presents the core mission of perception refinement.
+ - Uses block inheritance from base.html to maintain consistency.
+ - Provides access to login, dashboards, and behavioral modules.
+-->
+
+{% extends "base.html" %}
+
+{% block title %}Eyes Unclouded - Home{% endblock %}
+
+{% block header %}
+<i class="material-icons" style="vertical-align: middle; font-size: 1.4em;">psychology</i>
+Eyes Unclouded – Legacy of Awareness
+{% endblock %}
+
+{% block content %}
+<section class="intro-section">
+    <p class="intro-text">
+        Welcome, Observer. This is the beginning of your journey to refine perception, develop virtue, and master strategic insight.  
+    </p>
+    <p>
+        Within these pages, you'll log internal observations, track behavioral wisdom, and unlock lessons left behind through time and choice.
+    </p>
+    <div class="call-to-action">
+        <a href="{{ url_for('show_login') }}" class="btn-primary">
+            <i class="material-icons">login</i> Begin Your Ascent
+        </a>
+    </div>
+</section>
+{% endblock %}

@@ -1,31 +1,40 @@
 <!--
  File: home.html
- Course: CIS 234A - Real World Programming
+ Project: Eyes Unclouded App – Behavioral Engine
  Author: Khaylub Thompson-Calvin
- Date: 04/15/2025
+ Date: 04/16/2025
  Description:
- Public-facing homepage for the Food Pantry Notification System.
- Uses the original food_pantry_logo.png in the hero section and invites
- new visitors to log in. Styled for mobile-first experience using base.html.
+ Homepage gateway into the Eyes Unclouded legacy engine.
+ Styled with symbolic elements, perception-focused tone,
+ and mobile-first design for future 3D experience layers.
 -->
 
 {% extends "base.html" %}
 
-{% block title %}Welcome - Campus Pantry{% endblock %}
+{% block title %}Eyes Unclouded – Legacy Entry{% endblock %}
 
 {% block hero %}
 <div class="hero-logo">
-    <img src="{{ url_for('static', filename='images/food_pantry_logo.png') }}" alt="Food Pantry Original Logo" class="logo-img" />
+    <a href="{{ url_for('show_login') }}">
+        <img src="{{ url_for('static', filename='images/EyesUnclouded_logo.png') }}"
+             alt="Eyes Unclouded Legacy Mole Logo"
+             class="logo-img interactive-glow"
+             style="max-width: 320px; border-radius: 14px; box-shadow: 0 0 25px rgba(0, 255, 204, 0.45);" />
+    </a>
 </div>
 {% endblock %}
 
-{% block header %}Welcome to the Campus Pantry{% endblock %}
+{% block header %}Welcome to the Eyes Unclouded Interface{% endblock %}
 
 {% block content %}
 <div class="container">
-    <h2>Food Support. Campus Connection.</h2>
-    <p>Your one-stop hub for food access, community care, and campus resources.</p>
-    <a href="{{ url_for('login') }}" class="btn">Login to Access Services</a>
+    <h2>Enter the Archive of Perception</h2>
+    <p>This engine is your gateway into behavioral clarity and virtue calibration. Every insight here leaves a trail for future minds.</p>
+    <a href="{{ url_for('show_login') }}" class="btn highlight-btn">
+        <i class="material-icons">login</i> Enter the System
+    </a>
 </div>
 {% endblock %}
+
+
 

@@ -1,24 +1,21 @@
 <!--
  File: send_notification.html
- Course: CIS 234A - Real World Programming
+ Project: Eyes Unclouded App – Legacy Broadcast System
  Author: Khaylub Thompson-Calvin
- Date: 04/13/2025
+ Date: 04/16/2025
  Description:
- This template provides a form to send a new notification in the Food Pantry Notification System.
- It extends the base layout and defines blocks for title, header, and content.
-
- References:
- - Flask Templating Docs: https://flask.palletsprojects.com/
- - Jinja2 Documentation: https://jinja.palletsprojects.com/
+ Allows users to transmit symbolic notifications into the system.
+ These "Perception Broadcasts" can contain coded insight, strategy alerts,
+ or virtuous reminders. Tied into user's role, this system evolves with experience.
 -->
 
 {% extends "base.html" %}
 
-{% block title %}Send Notification{% endblock %}
-{% block header %}Send a New Notification{% endblock %}
+{% block title %}Transmit Perception Signal{% endblock %}
+{% block header %}Broadcast a Strategic Insight{% endblock %}
 
 {% block content %}
-    <!-- Flash Messages (optional if implemented) -->
+<div class="container">
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             <div class="container">
@@ -32,15 +29,19 @@
     {% endwith %}
 
     <form method="post" action="/send_notification">
-        <label for="subject">Subject:</label>
-        <input type="text" id="subject" name="subject" required>
+        <label for="subject">Signal Title:</label>
+        <input type="text" id="subject" name="subject" placeholder="e.g., 'Observe Micro-Agitation Pattern'" required>
 
-        <label for="message">Message:</label>
-        <textarea id="message" name="message" rows="5" required></textarea>
+        <label for="message">Encoded Insight:</label>
+        <textarea id="message" name="message" rows="6" placeholder="Detail a virtue, observation, or deception marker..." required></textarea>
 
-        <button type="submit">Send Notification</button>
+        <button type="submit">
+            <i class="material-icons">send</i> Transmit Signal
+        </button>
     </form>
 
-    <p style="margin-top: 20px;"><a href="/dashboard">Back to Dashboard</a></p>
+    <p style="margin-top: 20px;"><a href="/dashboard">Return to the Mind's Core</a></p>
+</div>
 {% endblock %}
+
 

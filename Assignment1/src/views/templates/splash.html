@@ -1,31 +1,31 @@
 <!--
  File: splash.html
- Course: CIS 234A - Real World Programming
+ Project: Eyes Unclouded App – Legacy Gateway
  Author: Khaylub Thompson-Calvin
- Date: 04/15/2025
+ Date: 04/16/2025
  Description:
- Splash screen used as the public-facing homepage. This file is meant to 
- welcome first-time visitors to the Campus Pantry system. It includes
- a hero image (food_pantry_logo.png), short welcome message, and 
- login access. Extends base.html which includes campus_pantry_logo.png.
+ Public splash screen welcoming Seekers to the Eyes Unclouded System.
+ Serves as the initiation point for perception mastery and virtue training.
+ Hero image and message serve as symbolic invitation to legacy journey.
 -->
 
 {% extends "base.html" %}
 
-{% block title %}Welcome - Campus Pantry{% endblock %}
+{% block title %}Eyes Unclouded – Gateway{% endblock %}
 
 {% block hero %}
 <div class="hero-logo">
-    <img src="{{ url_for('static', filename='images/food_pantry_logo.png') }}" alt="Food Pantry Original Logo" class="logo-img" />
+    <img src="{{ url_for('static', filename='images/EyesUnclouded.png') }}" alt="Eyes Unclouded Legacy Sigil" />
 </div>
 {% endblock %}
 
-{% block header %}Home – Welcome to the PCC Campus Pantry{% endblock %}
+{% block header %}Initiation Gateway – Enter the Library of Insight{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h2>Food Support. Campus Connection.</h2>
-    <p>Your one-stop hub for food access, community care, and campus resources.</p>
-    <a href="{{ url_for('login') }}" class="btn">Login to Access Services</a>
-</div>
+<h2>Observe. Decode. Endure.</h2>
+<p>Welcome, Seeker. This is your entry into the behavioral library where wisdom is preserved and legacies are unlocked.</p>
+<a href="{{ url_for('show_login') }}" class="highlight-btn interactive-glow">
+    <i class="material-icons">login</i> Begin the Path
+</a>
 {% endblock %}
+

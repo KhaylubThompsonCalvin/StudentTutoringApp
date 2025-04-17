@@ -1,73 +1,101 @@
 <!--
  File: base.html
- Course: CIS 234A - Real World Programming
- Author: Khaylub Thompson-Calvin
- Date: 04/13/2025
+ Project: Eyes Unclouded App
+ Author: Khaylub Thompson‑Calvin
+ Date: 04/16/2025
  Description:
- Base layout for the Campus Pantry app.
- - Shows header with primary logo (campus_pantry_logo.png)
- - Includes dynamic hero section (food_pantry_logo.png for splash/login)
- - Loads Material Icons + project-wide CSS
+ Base layout for the Eyes Unclouded self‑mastery engine.
+ - Embeds a legacy logic framework UI.
+ - Includes Material Icons, dynamic content blocks, and responsive navigation.
+ - Provides a scroll‑triggered “beat” animation for the hero image.
 -->
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}Campus Pantry - PCC{% endblock %}</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Eyes Unclouded{% endblock %}</title>
 
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <!-- CSS & Icons -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Custom App Styles -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
 </head>
 
 <body>
-    <div id="container">
+  <div class="container">
+    <!-- App Header -->
+    <header class="main-header">
+      <div class="logo-container">
+        <a href="{{ url_for('splash') }}">
+          <img
+            src="{{ url_for('static', filename='images/EyesUnclouded_logo.png') }}"
+            alt="Eyes Unclouded Logo"
+            class="logo-img scroll-beat" />
+        </a>
+        <h1 class="app-title">Eyes Unclouded</h1>
+        <p class="subtitle">Perception. Virtue. Strategy.</p>
+      </div>
+    </header>
 
-        <!-- Header (shows on every page) -->
-        <header class="main-header">
-            <div class="logo-container">
-                <a href="{{ url_for('dashboard') }}">
-                    <img src="{{ url_for('static', filename='images/campus_pantry_logo.png') }}" alt="Campus Pantry Logo" class="logo-img" />
-                </a>
-            </div>
-        </header>
+    <!-- Navigation -->
+    <nav class="main-nav">
+      <ul class="nav-links">
+        <li><a href="{{ url_for('splash') }}"><i class="material-icons">visibility</i> Insight</a></li>
+        <li><a href="{{ url_for('show_login') }}"><i class="material-icons">login</i> Enter</a></li>
+        <li><a href="{{ url_for('dashboard') }}"><i class="material-icons">dashboard</i> Pathway</a></li>
+        <li><a href="{{ url_for('notifications') }}"><i class="material-icons">history</i> Logs</a></li>
+        <li><a href="{{ url_for('create_template') }}"><i class="material-icons">article</i> Templates</a></li>
+      </ul>
+    </nav>
 
-        <!-- Navigation Menu -->
-        <nav class="main-nav">
-            <ul class="nav-links">
-                <li><a href="{{ url_for('index') }}"><i class="material-icons">home</i>Home</a></li>
-                <li><a href="{{ url_for('login') }}"><i class="material-icons">emoji_food_beverage</i>Login</a></li>
-                <li><a href="{{ url_for('dashboard') }}"><i class="material-icons">campaign</i>Dashboard</a></li>
-                <li><a href="{{ url_for('notification_log') }}"><i class="material-icons">history</i>Notification Log</a></li>
-                <li><a href="{{ url_for('create_template') }}"><i class="material-icons">article</i>Create Template</a></li>
-            </ul>
-        </nav>
+    <!-- Optional Hero Section -->
+    {% block hero %}{% endblock %}
 
-        <!-- Optional Hero Image (only appears if block defined in child template) -->
-        {% block hero %}{% endblock %}
+    <!-- Main Content -->
+    <main>
+      <h2>{% block header %}Welcome to Your Inner Library{% endblock %}</h2>
+      {% block content %}
+        <p>Reflect. Record. Respond with clarity.</p>
+      {% endblock %}
+    </main>
 
-        <!-- Main Body -->
-        <main>
-            <h1>{% block header %}Campus Pantry Communications Hub{% endblock %}</h1>
-            {% block content %}
-            <p>This is the default content area.</p>
-            {% endblock %}
-        </main>
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2025 Eyes Unclouded Behavioral Engine</p>
+      <p>
+        <a href="https://github.com/KhaylubThompsonCalvin" target="_blank">
+          Explore Legacy Repository
+        </a>
+      </p>
+    </footer>
+  </div>
 
-        <!-- Footer -->
-        <footer>
-            <p>&copy; 2025 Food Pantry Notification System</p>
-            <p><a href="mailto:https://github.com/KhaylubThompsonCalvin">Khaylub Thompson-Calvin Portfolio</a></p>
-        </footer>
-
-    </div>
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  <!-- Scroll‑triggered “beat” animation script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const logo = document.querySelector(".logo-img.scroll-beat");
+      if (!logo) return;
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            logo.classList.add("playing");
+          } else {
+            logo.classList.remove("playing");
+          }
+        });
+      }, { threshold: 0.5 });
+      observer.observe(logo);
+    });
+  </script>
 </body>
 </html>
+
+
+
 
 
 

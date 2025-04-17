@@ -1,58 +1,73 @@
 <!--
  File: notifications.html
- Course: CIS 234A - Real World Programming
+ Project: Eyes Unclouded Behavioral Engine
  Author: Khaylub Thompson-Calvin
- Date: 04/13/2025
+ Date: 04/16/2025
  Description:
- This template allows users to post new notifications and view existing ones
- in the Food Pantry Notification System.
-
- References:
- - Flask Templating Docs: https://flask.palletsprojects.com/
- - Jinja2 Documentation: https://jinja.palletsprojects.com/
+ Allows Seekers to post strategic or emotional signals (notifications)
+ within the system. Doubles as a signal archive for training perception
+ and legacy tracking.
 -->
 
 {% extends "base.html" %}
 
-{% block title %}Post Notifications{% endblock %}
-{% block header %}Post a Notification{% endblock %}
+{% block title %}Signal Beacon – Eyes Unclouded{% endblock %}
+{% block header %}Broadcast Strategic Signal{% endblock %}
 
 {% block content %}
 <div class="container">
 
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-            <div class="container">
-                {% for category, message in messages %}
-                    <div class="flash-message {{ category }}">
-                        <strong>{{ message }}</strong>
-                    </div>
-                {% endfor %}
-            </div>
+            {% for category, message in messages %}
+                <div class="flash-message {{ category }}">
+                    <strong>{{ message }}</strong>
+                </div>
+            {% endfor %}
         {% endif %}
     {% endwith %}
 
     <form action="/notifications" method="POST">
-        <label for="title">Title:</label>
+        <label for="title">Signal Title:</label>
         <input type="text" id="title" name="title" required>
 
-        <label for="message">Message:</label>
+        <label for="message">Strategic Message:</label>
         <textarea id="message" name="message" required rows="4"></textarea>
 
-        <button type="submit">Send Notification</button>
+        <label for="virtue_tag">Virtue Alignment:</label>
+        <select id="virtue_tag" name="virtue_tag">
+            <option value="wisdom">Wisdom</option>
+            <option value="honor">Honor</option>
+            <option value="adaptability">Adaptability</option>
+            <option value="restraint">Restraint</option>
+            <option value="clarity">Clarity</option>
+        </select>
+
+        <label for="emotion_tag">Emotion Tone:</label>
+        <select id="emotion_tag" name="emotion_tag">
+            <option value="neutral">Neutral</option>
+            <option value="urgent">Urgent</option>
+            <option value="reflective">Reflective</option>
+            <option value="inspiring">Inspiring</option>
+            <option value="critical">Critical</option>
+        </select>
+
+        <button type="submit">Transmit Signal</button>
     </form>
 
     <hr>
 
-    <h2>Existing Notifications</h2>
+    <h2>Past Strategic Signals</h2>
     {% if notifications %}
         <table>
             <thead>
                 <tr>
-                    <th>Title</th>
+                    <th>Signal</th>
                     <th>Message</th>
-                    <th>Created By</th>
-                    <th>Time</th>
+                    <th>Virtue</th>
+                    <th>Emotion</th>
+                    <th>Sent By</th>
+                    <th>Sent At</th>
                 </tr>
             </thead>
             <tbody>
@@ -60,6 +75,8 @@
                     <tr>
                         <td>{{ note.title }}</td>
                         <td>{{ note.message }}</td>
+                        <td>{{ note.virtue_tag }}</td>
+                        <td>{{ note.emotion_tag }}</td>
                         <td>{{ note.createdBy }}</td>
                         <td>{{ note.sent_at }}</td>
                     </tr>
@@ -67,10 +84,11 @@
             </tbody>
         </table>
     {% else %}
-        <p>No notifications found.</p>
+        <p>No signals have been broadcast yet.</p>
     {% endif %}
 
-    <p style="margin-top: 20px;"><a href="/dashboard">Back to Dashboard</a></p>
+    <p style="margin-top: 20px;"><a href="/dashboard">Return to the Archive</a></p>
 </div>
 {% endblock %}
+
 

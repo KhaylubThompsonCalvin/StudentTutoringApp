@@ -1,11 +1,12 @@
 <!--
  File: create_template.html
- Course: CIS 234A - Real World Programming
+ Project: Eyes Unclouded App
  Author: Khaylub Thompson-Calvin
- Date: 04/13/2025
+ Date: 04/16/2025
  Description:
- This template allows users to create and save message templates
- for the Food Pantry Notification System.
+ This page allows users to define symbolic message templates
+ for the Eyes Unclouded self-mastery engine.
+ Templates may carry encoded intent, virtue themes, and narrative layers.
 
  References:
  - Flask Templating Docs: https://flask.palletsprojects.com/
@@ -14,8 +15,8 @@
 
 {% extends "base.html" %}
 
-{% block title %}Create Notification Template{% endblock %}
-{% block header %}Create Notification Template{% endblock %}
+{% block title %}Design Symbolic Insight{% endblock %}
+{% block header %}Create Perceptual Template{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -33,19 +34,19 @@
     {% endwith %}
 
     <form method="post" action="/create_template">
-        <label for="template_name">Template Name:</label>
+        <label for="template_name">Virtue Insight Name:</label>
         <input type="text" id="template_name" name="template_name" required>
 
-        <label for="template_subject">Template Subject:</label>
+        <label for="template_subject">Strategic Focus:</label>
         <input type="text" id="template_subject" name="template_subject" required>
 
-        <label for="template_body">Template Body:</label>
+        <label for="template_body">Encoded Narrative:</label>
         <textarea id="template_body" name="template_body" rows="10" required></textarea>
 
-        <button type="submit">Save Template</button>
+        <button type="submit">Archive Template</button>
     </form>
 
-    <p style="margin-top: 20px;"><a href="/dashboard">Back to Dashboard</a></p>
+    <p style="margin-top: 20px;"><a href="{{ url_for('dashboard') }}">⟵ Return to Inner Path</a></p>
 </div>
 {% endblock %}
 

@@ -1,21 +1,22 @@
 <!--
  File: dashboard.html
- Course: CIS 234A - Real World Programming
+ Project: Eyes Unclouded App – Behavioral Engine
  Author: Khaylub Thompson-Calvin
- Date: 04/13/2025
+ Date: 04/16/2025
  Description:
- This template renders the user dashboard for the Food Pantry Notification System.
- It shows login status, notification tools, and dashboard navigation.
+ This dashboard is the central hub of symbolic perception training.
+ It guides users through virtue tracking, microexpression decoding, and narrative mastery.
 
  References:
  - Flask Templating Docs: https://flask.palletsprojects.com/
- - Jinja2 Documentation: https://jinja.palletsprojects.com/
+ - Ekman Facial Coding System: https://www.paulekman.com
+ - Philosophy: Socratic, Stoic, Strategic frameworks
 -->
 
 {% extends "base.html" %}
 
-{% block title %}Dashboard - Food Pantry{% endblock %}
-{% block header %}Food Pantry Dashboard{% endblock %}
+{% block title %}Eyes Unclouded – Legacy Dashboard{% endblock %}
+{% block header %}Perceptual Dashboard{% endblock %}
 
 {% block content %}
 <div class="container dashboard">
@@ -32,26 +33,28 @@
         {% endif %}
     {% endwith %}
 
-    <h1>Welcome, {{ username }}! [<i class="material-icons" style="vertical-align: middle; font-size: 1em;">emoji_food_beverage</i>]</h1>
-    <p>You’re now connected with students who care. Let’s keep our community fed and informed.</p>
+    <h2>Welcome back, {{ username }}. 👁️‍🗨️</h2>
+    <p class="intro-text">You’ve entered the domain of reflection. This space evolves with your perception. Document insights, recognize patterns, and refine your strategic thinking.</p>
 
     <div class="stats">
         <div class="card">
-            <h3>[<i class="material-icons" style="vertical-align: middle;">campaign</i>] <a href="/notifications">Post Notification</a></h3>
-            <p>Create a message for your community.</p>
+            <h3><i class="material-icons">visibility</i> <a href="/notifications">Post Insight</a></h3>
+            <p>Craft a symbolic message, log emotion, or record a behavioral clue.</p>
         </div>
+
         <div class="card">
-            <h3>[<i class="material-icons" style="vertical-align: middle;">history</i>] <a href="/notification_log">View Notification Log</a></h3>
-            <p>Filter and review past announcements.</p>
+            <h3><i class="material-icons">history</i> <a href="/notification_log">Insight Archive</a></h3>
+            <p>Review previously logged revelations and behavioral signals.</p>
         </div>
+
         <div class="card">
-            <h3>[<i class="material-icons" style="vertical-align: middle;">article</i>] <a href="/create_template">Create Template</a></h3>
-            <p>Build reusable message formats.</p>
+            <h3><i class="material-icons">article</i> <a href="/create_template">Design Template</a></h3>
+            <p>Build reusable narrative blueprints. Encode virtue or deception structures.</p>
         </div>
     </div>
 
     <p style="margin-top: 30px;">
-        [<i class="material-icons" style="vertical-align: middle;">logout</i>] <a href="/logout">Logout</a>
+        <i class="material-icons" style="vertical-align: middle;">logout</i> <a href="/logout">Logout of Observation</a>
     </p>
 </div>
 {% endblock %}
